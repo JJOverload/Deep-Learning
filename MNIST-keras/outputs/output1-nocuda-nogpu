@@ -1,0 +1,87 @@
+2024-01-05 23:35:22.921899: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2024-01-05 23:35:22.965926: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2024-01-05 23:35:23.731707: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+x_train shape: (60000, 28, 28, 1)
+y_train shape: (60000,)
+60000 train samples
+10000 test samples
+2024-01-05 23:35:24.767984: I tensorflow/compiler/xla/stream_executor/cuda/cuda_gpu_executor.cc:995] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2024-01-05 23:35:24.769712: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1960] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d (Conv2D)             (None, 26, 26, 64)        640       
+                                                                 
+ conv2d_1 (Conv2D)           (None, 24, 24, 64)        36928     
+                                                                 
+ max_pooling2d (MaxPooling2  (None, 12, 12, 64)        0         
+ D)                                                              
+                                                                 
+ conv2d_2 (Conv2D)           (None, 10, 10, 128)       73856     
+                                                                 
+ conv2d_3 (Conv2D)           (None, 8, 8, 128)         147584    
+                                                                 
+ global_average_pooling2d (  (None, 128)               0         
+ GlobalAveragePooling2D)                                         
+                                                                 
+ dropout (Dropout)           (None, 128)               0         
+                                                                 
+ dense (Dense)               (None, 10)                1290      
+                                                                 
+=================================================================
+Total params: 260298 (1016.79 KB)
+Trainable params: 260298 (1016.79 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+2024-01-05 23:35:24.905681: W tensorflow/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 159936000 exceeds 10% of free system memory.
+Epoch 1/20
+399/399 [==============================] - 127s 317ms/step - loss: 0.7531 - acc: 0.7450 - val_loss: 0.1521 - val_acc: 0.9573
+Epoch 2/20
+399/399 [==============================] - 132s 330ms/step - loss: 0.2130 - acc: 0.9362 - val_loss: 0.1049 - val_acc: 0.9701
+Epoch 3/20
+399/399 [==============================] - 134s 336ms/step - loss: 0.1519 - acc: 0.9553 - val_loss: 0.0694 - val_acc: 0.9800
+Epoch 4/20
+399/399 [==============================] - 136s 340ms/step - loss: 0.1211 - acc: 0.9638 - val_loss: 0.0542 - val_acc: 0.9853
+Epoch 5/20
+399/399 [==============================] - 138s 345ms/step - loss: 0.1019 - acc: 0.9692 - val_loss: 0.0483 - val_acc: 0.9856
+Epoch 6/20
+399/399 [==============================] - 136s 340ms/step - loss: 0.0915 - acc: 0.9729 - val_loss: 0.0428 - val_acc: 0.9880
+Epoch 7/20
+399/399 [==============================] - 136s 340ms/step - loss: 0.0802 - acc: 0.9763 - val_loss: 0.0438 - val_acc: 0.9890
+Epoch 8/20
+399/399 [==============================] - 135s 339ms/step - loss: 0.0708 - acc: 0.9792 - val_loss: 0.0390 - val_acc: 0.9899
+Epoch 9/20
+399/399 [==============================] - 136s 340ms/step - loss: 0.0670 - acc: 0.9796 - val_loss: 0.0381 - val_acc: 0.9893
+Epoch 10/20
+399/399 [==============================] - 136s 342ms/step - loss: 0.0636 - acc: 0.9811 - val_loss: 0.0311 - val_acc: 0.9909
+Epoch 11/20
+399/399 [==============================] - 137s 343ms/step - loss: 0.0592 - acc: 0.9826 - val_loss: 0.0327 - val_acc: 0.9918
+Epoch 12/20
+399/399 [==============================] - 137s 342ms/step - loss: 0.0552 - acc: 0.9839 - val_loss: 0.0300 - val_acc: 0.9918
+Epoch 13/20
+399/399 [==============================] - 136s 340ms/step - loss: 0.0504 - acc: 0.9856 - val_loss: 0.0272 - val_acc: 0.9922
+Epoch 14/20
+399/399 [==============================] - 136s 340ms/step - loss: 0.0478 - acc: 0.9854 - val_loss: 0.0295 - val_acc: 0.9921
+Epoch 15/20
+399/399 [==============================] - 136s 341ms/step - loss: 0.0470 - acc: 0.9863 - val_loss: 0.0264 - val_acc: 0.9928
+Epoch 16/20
+399/399 [==============================] - 134s 335ms/step - loss: 0.0454 - acc: 0.9869 - val_loss: 0.0272 - val_acc: 0.9928
+Epoch 17/20
+399/399 [==============================] - 135s 339ms/step - loss: 0.0401 - acc: 0.9878 - val_loss: 0.0290 - val_acc: 0.9914
+313/313 [==============================] - 7s 22ms/step
+[[4.46916708e-08 6.10127637e-09 2.47866433e-06 ... 9.99994695e-01
+  4.74513095e-09 2.59312310e-06]
+ [2.95286178e-08 3.64898822e-09 9.99999940e-01 ... 8.41467174e-10
+  1.33561973e-09 1.51287368e-11]
+ [1.62193018e-07 9.99889195e-01 1.89867492e-07 ... 2.21685459e-05
+  1.92789812e-05 3.98282373e-06]
+ ...
+ [3.51206260e-13 1.11429226e-14 1.48781012e-13 ... 6.93466453e-19
+  1.29651255e-07 1.20909728e-12]
+ [5.84272951e-12 4.11158974e-22 1.91599978e-17 ... 1.77201876e-15
+  1.26932518e-05 3.72106540e-10]
+ [1.99885442e-09 1.27334172e-16 3.86954412e-07 ... 3.77054914e-22
+  6.79993661e-08 5.07196021e-11]]
+Time: 0:38:29.747253
