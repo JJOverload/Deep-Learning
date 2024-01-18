@@ -109,7 +109,6 @@ for folder_name in ("Cat", "Dog"):
 
 print(f"Deleted {num_skipped} images.")
 '''
-print("--------------------------------------")
 
 should_rewrite_image = True # set to true if you are getting Corrupt Data error
 num_skipped = 0
