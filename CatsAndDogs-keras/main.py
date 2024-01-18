@@ -1,8 +1,7 @@
 """
 Title: Image classification from scratch
-Author: [fchollet](https://twitter.com/fchollet)
+Author: [fchollet](https://twitter.com/fchollet) & modified by JJOverload
 Date created: 2020/04/27
-Last modified: 2023/11/09
 Description: Training an image classifier from scratch on the Kaggle Cats vs Dogs dataset.
 Accelerator: GPU
 """
@@ -21,15 +20,20 @@ we use Keras image preprocessing layers for image standardization and data augme
 """
 ## Setup
 """
-
 import os
+from tensorflow.io import read_file, write_file
+from tensorflow.image import decode_image
+
+#import os
 import numpy as np
 import keras
 from keras import layers
 import tensorflow as tf
 from tensorflow import data as tf_data
 import matplotlib.pyplot as plt
-from PIL import Image
+
+#from PIL import Image
+#Image.LOAD_TRUNCATED_IMAGES = True
 
 print("Finished importing.")
 """
@@ -76,7 +80,7 @@ for folder_name in ("Cat", "Dog"):
         if fname.endswith('.jpg'):
             try:
                 img = Image.open(fpath) # open the image file
-                print("%s", fpath)
+                #print("%s", fpath)
                 exif_data = img._getexif()
                 img.verify() # verify that it is, in fact an image
             except:
@@ -85,7 +89,7 @@ for folder_name in ("Cat", "Dog"):
                 os.remove(fpath)
 print("PIL deleted %d images" % num_skipped)
 '''
-
+'''
 #archive
 num_skipped = 0
 for folder_name in ("Cat", "Dog"):
@@ -104,12 +108,48 @@ for folder_name in ("Cat", "Dog"):
             os.remove(fpath)
 
 print(f"Deleted {num_skipped} images.")
+'''
+print("--------------------------------------")
 
+should_rewrite_image = True # set to true if you are getting Corrupt Data error
+num_skipped = 0
+for folder_name in ("Cat", "Dog"):
+    folder_path = os.path.join("PetImages", folder_name)
+    for fname in os.listdir(folder_path):
+        fpath = os.path.join(folder_path, fname)
+        is_jfif = True
+        should_remove = False
+        
+        with open(fpath, "rb") as fobj:
+            is_jfif = tf.compat.as_bytes("JFIF") in fobj.peek(10)
+            
+        try:
+            img = read_file(fpath)
+            if not tf.io.is_jpeg(img):
+                should_remove = True
+                
+            img = decode_image(img)
+
+            if img.ndim != 3:
+                should_remove = True
+
+        except Exception as e:
+            should_remove = True
+        
+        if (not is_jfif) or should_remove:
+            num_skipped += 1
+            # Delete corrupted image
+            os.remove(fpath)
+        elif should_rewrite_image:
+            tmp = tf.io.encode_jpeg(img)
+            write_file(fpath, tmp)
+
+print("Deleted %d images" % num_skipped)
 
 """
 ## Generate a `Dataset`
 """
-print("Generating a Dataset")
+print("Generating a Dataset.")
 image_size = (180, 180)
 batch_size = 128
 
@@ -318,7 +358,6 @@ epochs = 25
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
-    keras.callbacks.EarlyStopping(monitor="val_loss", patience=2),
 ]
 model.compile(
     optimizer=keras.optimizers.Adam(3e-4),
@@ -332,6 +371,10 @@ model.fit(
     validation_data=val_ds,
 )
 
+print("Saving model.")
+model.save("final_model_cats_dogs.keras")
+print("Loading model.")
+model = keras.saving.load_model("final_model_cats_dogs.keras")
 """
 We get to >90% validation accuracy after training for 25 epochs on the full dataset
 (in practice, you can train for 50+ epochs before validation performance starts degrading).
@@ -342,8 +385,12 @@ We get to >90% validation accuracy after training for 25 epochs on the full data
 
 Note that data augmentation and dropout are inactive at inference time.
 """
+
+
+
 print("Running inference on new data.")
-#img = keras.utils.load_img("PetImages/Cat/6779.jpg", target_size=image_size)
+img = keras.utils.load_img("PetImages/Cat/6779.jpg", target_size=image_size
+)
 #plt.imshow(img)
 
 
