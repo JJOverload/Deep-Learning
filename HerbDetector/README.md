@@ -25,3 +25,6 @@ Would have to manually take out certain images from the dataset since Google Ima
 TODO: Need to figure out how to resize images effectively, without sacrificing the accuracy results of the training. Dataset images currently do not have uniform image sizes.
 
 NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
+
+-----------------------------------------------
+
