@@ -1,6 +1,6 @@
 # Herb Detector by JJOverload
 
-This detector aims to help create a dataset for training an image classification model, which can potentially recognize different types of herbs.
+This project aims to help create a dataset for training an image classification model, which can potentially recognize different types of herbs.
 
 -----------------------------------
 
