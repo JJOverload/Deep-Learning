@@ -15,3 +15,13 @@ From scratch, get images by running:<br>
 `python3 get-herb-images.py`
 
 (Be sure to remove existing images from directory before running again... Unless you want duplicates!)
+
+----------------------------------------------
+
+**Step 2: Filter Out Bad Training Images**
+
+Would have to manually take out certain images from the dataset since Google Images has both good and bad images for training.
+
+TODO: Need to figure out how to resize images effectively, without sacrificing the accuracy results of the training. Dataset images currently do not have uniform image sizes.
+
+NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
