@@ -209,7 +209,7 @@ def make_model(input_shape, num_classes):
         x = layers.Activation("relu")(x)
         x = layers.SeparableConv2D(size, 3, padding="same")(x)
         x = layers.BatchNormalization()(x)
-
+        
         x = layers.Activation("relu")(x)
         x = layers.SeparableConv2D(size, 3, padding="same")(x)
         x = layers.BatchNormalization()(x)
@@ -239,7 +239,7 @@ def make_model(input_shape, num_classes):
     return keras.Model(inputs, outputs)
 
 print("Building a model.")
-model = make_model(input_shape=image_size + (3,), num_classes=3)
+model = make_model(input_shape=image_size+(3,), num_classes=3)
 #keras.utils.plot_model(model, show_shapes=True)
 
 """
@@ -253,8 +253,8 @@ callbacks = [
 ]
 model.compile(
     optimizer=keras.optimizers.Adam(3e-4),
-    loss=keras.losses.BinaryCrossentropy(from_logits=True),
-    metrics=[keras.metrics.BinaryAccuracy(name="acc")],
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    metrics=['accuracy'],
 )
 model.fit(
     train_ds,
@@ -265,6 +265,9 @@ model.fit(
 
 print("Saving model.")
 model.save("final_model_herb.keras")
+
+
+
 print("Loading model.")
 model = keras.saving.load_model("final_model_herb.keras")
 """
@@ -291,6 +294,11 @@ img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
 
 predictions = model.predict(img_array)
 print(predictions)
+
+indexOfMax = np.argmax(predictions_single[0])
+
+print("indexOfMax:", indexOfMax)
+
 #score = float(keras.ops.sigmoid(predictions[0][0]))
 #print(f"This image is {100 * (1 - score):.2f}% cat and {100 * score:.2f}% dog.")
 

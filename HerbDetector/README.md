@@ -22,9 +22,12 @@ From scratch, get images by running:<br>
 
 Would have to manually take out certain images from the dataset since Google Images has both good and bad images for training.
 
-TODO: Need to figure out how to resize images effectively, without sacrificing the accuracy results of the training. Dataset images currently do not have uniform image sizes.
+Resizing will be done through the pipeline, so don't have to worry too much about that (from my experience).
 
-NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
+Terminal command for converting png images to jpg:<br>
+`mogrify -format jpg *.png`
+
 
 -----------------------------------------------
 
+NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
