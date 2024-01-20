@@ -240,7 +240,10 @@ def make_model(input_shape, num_classes):
 
 print("Building a model.")
 model = make_model(input_shape=image_size+(3,), num_classes=3)
-#keras.utils.plot_model(model, show_shapes=True)
+
+#dot_img_file = "~/Deep_Learning/HerbDetector/"
+keras.utils.plot_model(model, show_shapes=True)
+print("Saved Plot Model.")
 
 """
 ## Train the model
@@ -295,7 +298,7 @@ img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
 predictions = model.predict(img_array)
 print(predictions)
 
-indexOfMax = np.argmax(predictions_single[0])
+indexOfMax = np.argmax(predictions[0])
 
 print("indexOfMax:", indexOfMax)
 
