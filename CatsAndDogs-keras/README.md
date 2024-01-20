@@ -12,11 +12,11 @@ Continue reading this if you are building from scratch/fresh linux machine.
 **Dependencies Installation Required**<br>
 Use curl to gather dataset:
 
-`!curl -O https://download.microsoft.com/download/3/E/1/3E1C3F21-ECDB-4869-8368-6DEBA77B919F/kagglecatsanddogs_5340.zip`
+`curl -O https://download.microsoft.com/download/3/E/1/3E1C3F21-ECDB-4869-8368-6DEBA77B919F/kagglecatsanddogs_5340.zip`
 
 and then:
 
-`!unzip -q kagglecatsanddogs_5340.zip`
+`unzip -q kagglecatsanddogs_5340.zip`
 
 NVIDIA CUDA Installation Guide for Linux (Note: double check Keras site for supported versions of CUDA accepted):<br>
 https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html

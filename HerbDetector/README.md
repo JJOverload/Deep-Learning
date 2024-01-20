@@ -1,6 +1,6 @@
 # Herb Detector by JJOverload
 
-This detector aims to help create a dataset for training an image classification model, which can potentially recognize different types of herbs.
+This project aims to help create a dataset for training an image classification model, which can potentially recognize different types of herbs.
 
 -----------------------------------
 
@@ -22,9 +22,26 @@ From scratch, get images by running:<br>
 
 Would have to manually take out certain images from the dataset since Google Images has both good and bad images for training.
 
-TODO: Need to figure out how to resize images effectively, without sacrificing the accuracy results of the training. Dataset images currently do not have uniform image sizes.
+Resizing will be done through the pipeline, so don't have to worry too much about that (from my experience).
 
-NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
+Terminal command for converting png images to jpg:<br>
+`mogrify -format jpg *.png`
+
 
 -----------------------------------------------
 
+**Getting Code for Plot Model**
+
+pip install pydot-ng
+
+According to (https://graphviz.gitlab.io/download/):<br>
+sudo apt install graphviz
+
+-----------------------------------------------
+TODO:
+https://stackoverflow.com/questions/66785014/how-to-plot-the-accuracy-and-and-loss-from-this-keras-cnn-model
+
+https://chartio.com/resources/tutorials/how-to-save-a-plot-to-a-file-using-matplotlib/
+
+
+NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
