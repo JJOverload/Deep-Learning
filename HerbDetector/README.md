@@ -30,4 +30,18 @@ Terminal command for converting png images to jpg:<br>
 
 -----------------------------------------------
 
+**Getting Code for Plot Model**
+
+pip install pydot-ng
+
+According to (https://graphviz.gitlab.io/download/):<br>
+sudo apt install graphviz
+
+-----------------------------------------------
+TODO:
+https://stackoverflow.com/questions/66785014/how-to-plot-the-accuracy-and-and-loss-from-this-keras-cnn-model
+
+https://chartio.com/resources/tutorials/how-to-save-a-plot-to-a-file-using-matplotlib/
+
+
 NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
