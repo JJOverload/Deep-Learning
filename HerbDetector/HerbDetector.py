@@ -243,13 +243,13 @@ model = make_model(input_shape=image_size+(3,), num_classes=3)
 
 #dot_img_file = "~/Deep_Learning/HerbDetector/"
 keras.utils.plot_model(model, show_shapes=True)
-print("Saved Plot Model.")
+print("Saved Model Layout Map.")
 
 """
 ## Train the model
 """
 print("Training the model.")
-epochs = 1
+epochs = 5
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
@@ -259,7 +259,7 @@ model.compile(
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
     metrics=['accuracy'],
 )
-model.fit(
+history = model.fit(
     train_ds,
     epochs=epochs,
     callbacks=callbacks,
@@ -268,7 +268,6 @@ model.fit(
 
 print("Saving model.")
 model.save("final_model_herb.keras")
-
 
 
 print("Loading model.")
@@ -284,6 +283,28 @@ We get to >90% validation accuracy after training for 25 epochs on the full data
 Note that data augmentation and dropout are inactive at inference time.
 """
 
+print("Plotting Model Accuracy.")
+# summarize history for accuracy
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Model Accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.savefig('Model_Accuracy_Graph.png')
+print("Saved Graph #1")
+#clearing plot so that lines don't double up onto the second graph
+plt.clf()
+print("Plotting Model Loss")
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.savefig('Model_Loss_Graph.png')
+print("Saved Graph #2.")
 
 
 print("Running inference on new data.")
