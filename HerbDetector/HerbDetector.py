@@ -3,7 +3,7 @@ import os
 from tensorflow.io import read_file, write_file
 from tensorflow.image import decode_image
 
-#import os
+
 import numpy as np
 import keras
 from keras import layers
@@ -63,6 +63,7 @@ batch_size = 128
 
 train_ds, val_ds = keras.utils.image_dataset_from_directory(
     "herb_images",
+    color_mode="grayscale",
     validation_split=0.2,
     subset="both",
     seed=1337,
@@ -239,17 +240,17 @@ def make_model(input_shape, num_classes):
     return keras.Model(inputs, outputs)
 
 print("Building a model.")
-model = make_model(input_shape=image_size+(3,), num_classes=3)
+model = make_model(input_shape=image_size+(1,), num_classes=3)
 
 #dot_img_file = "~/Deep_Learning/HerbDetector/"
 keras.utils.plot_model(model, show_shapes=True)
-print("Saved Plot Model.")
+print("Saved Model Layout Map.")
 
 """
 ## Train the model
 """
 print("Training the model.")
-epochs = 1
+epochs = 3
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
@@ -259,7 +260,7 @@ model.compile(
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
     metrics=['accuracy'],
 )
-model.fit(
+history = model.fit(
     train_ds,
     epochs=epochs,
     callbacks=callbacks,
@@ -269,10 +270,31 @@ model.fit(
 print("Saving model.")
 model.save("final_model_herb.keras")
 
+print("Plotting Model Accuracy.")
+# summarize history for accuracy
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Model Accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.savefig('Model_Accuracy_Graph.png')
+print("Saved Graph #1")
+#clearing plot so that lines don't double up onto the second graph
+plt.clf()
+print("Plotting Model Loss")
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.savefig('Model_Loss_Graph.png')
+print("Saved Graph #2.")
 
 
-print("Loading model.")
-model = keras.saving.load_model("final_model_herb.keras")
+
 """
 We get to >90% validation accuracy after training for 25 epochs on the full dataset
 (in practice, you can train for 50+ epochs before validation performance starts degrading).
@@ -283,11 +305,14 @@ We get to >90% validation accuracy after training for 25 epochs on the full data
 
 Note that data augmentation and dropout are inactive at inference time.
 """
-
-
+print("Loading model.")
+model = keras.saving.load_model("final_model_herb.keras")
 
 print("Running inference on new data.")
-img = keras.utils.load_img("herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg", target_size=image_size
+img = keras.utils.load_img(
+	"herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg",
+	color_mode="grayscale",
+	target_size=image_size,
 )
 
 
