@@ -3,7 +3,7 @@ import os
 from tensorflow.io import read_file, write_file
 from tensorflow.image import decode_image
 
-#import os
+
 import numpy as np
 import keras
 from keras import layers
@@ -63,6 +63,7 @@ batch_size = 128
 
 train_ds, val_ds = keras.utils.image_dataset_from_directory(
     "herb_images",
+    color_mode="grayscale",
     validation_split=0.2,
     subset="both",
     seed=1337,
@@ -239,7 +240,7 @@ def make_model(input_shape, num_classes):
     return keras.Model(inputs, outputs)
 
 print("Building a model.")
-model = make_model(input_shape=image_size+(3,), num_classes=3)
+model = make_model(input_shape=image_size+(1,), num_classes=3)
 
 #dot_img_file = "~/Deep_Learning/HerbDetector/"
 keras.utils.plot_model(model, show_shapes=True)
@@ -249,7 +250,7 @@ print("Saved Model Layout Map.")
 ## Train the model
 """
 print("Training the model.")
-epochs = 5
+epochs = 3
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
@@ -268,20 +269,6 @@ history = model.fit(
 
 print("Saving model.")
 model.save("final_model_herb.keras")
-
-
-print("Loading model.")
-model = keras.saving.load_model("final_model_herb.keras")
-"""
-We get to >90% validation accuracy after training for 25 epochs on the full dataset
-(in practice, you can train for 50+ epochs before validation performance starts degrading).
-"""
-
-"""
-## Run inference on new data
-
-Note that data augmentation and dropout are inactive at inference time.
-"""
 
 print("Plotting Model Accuracy.")
 # summarize history for accuracy
@@ -307,8 +294,25 @@ plt.savefig('Model_Loss_Graph.png')
 print("Saved Graph #2.")
 
 
+
+"""
+We get to >90% validation accuracy after training for 25 epochs on the full dataset
+(in practice, you can train for 50+ epochs before validation performance starts degrading).
+"""
+
+"""
+## Run inference on new data
+
+Note that data augmentation and dropout are inactive at inference time.
+"""
+print("Loading model.")
+model = keras.saving.load_model("final_model_herb.keras")
+
 print("Running inference on new data.")
-img = keras.utils.load_img("herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg", target_size=image_size
+img = keras.utils.load_img(
+	"herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg",
+	color_mode="grayscale",
+	target_size=image_size,
 )
 
 
