@@ -1,6 +1,6 @@
 # Herb Detector by JJOverload
 
-This project aims to help create a dataset for training an image classification model, which can potentially recognize different types of herbs.
+This project aims to help create a dataset, as well as train an image classification model, which can potentially recognize different types of herbs (E.g. Rosemary, Sage, Thyme).
 
 -----------------------------------
 
@@ -39,18 +39,13 @@ According to (https://graphviz.gitlab.io/download/):<br>
 
 -----------------------------------------------
 TODO:
+so far 60 percent before heavy fluctuations in val loss. Next goal, either be able to train in stable manner for more epoches, or increase val accuracy before heavy val loss fluctuations, or both. Might need more images.
+
+
+**Useful Links**
 https://medium.com/@bdhuma/which-pooling-method-is-better-maxpooling-vs-minpooling-vs-average-pooling-95fb03f45a9
 
-average pool yields better results
-
-Was able to plot the accuracy/val acc, as well as the loss/val loss. But discovered that I am overfitting.
-
-
 https://datascience.stackexchange.com/questions/65471/validation-loss-much-higher-than-training-loss
-
-
-
-
 
 https://stackoverflow.com/questions/66785014/how-to-plot-the-accuracy-and-and-loss-from-this-keras-cnn-model
 
