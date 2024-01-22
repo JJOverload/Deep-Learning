@@ -2,14 +2,17 @@ import numpy as np
 import keras
 
 image_size = (180, 180)
+#model_name = "final_model_herb.keras"
+model_name = "save_at_37.keras"
+image_path = "herb_archive/sage-archive/sage-herb_163.jpeg"
 
 print("Loading model.")
-model = keras.saving.load_model("final_model_herb.keras")
+model = keras.saving.load_model(model_name)
 
 print("Running inference on new data.")
 img = keras.utils.load_img(
-	"herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg",
-	color_mode="grayscale",
+	image_path,
+	color_mode="rgb",
 	target_size=image_size,
 )
 

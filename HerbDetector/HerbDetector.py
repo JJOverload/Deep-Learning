@@ -19,7 +19,7 @@ print("Finished importing.")
 print("Filter out corrupted images.")
 
 
-should_rewrite_image = True # set to true if you are getting Corrupt Data error
+should_rewrite_image = False # set to true if you are getting Corrupt Data error
 num_skipped = 0
 for folder_name in ("rosemary-herb", "sage-herb", "thyme-herb"):
     folder_path = os.path.join("herb_images", folder_name)
@@ -63,7 +63,7 @@ batch_size = 128
 
 train_ds, val_ds = keras.utils.image_dataset_from_directory(
     "herb_images",
-    color_mode="grayscale",
+    color_mode="rgb",
     validation_split=0.2,
     subset="both",
     seed=1337,
@@ -198,49 +198,30 @@ Note that:
 def make_model(input_shape, num_classes):
     inputs = keras.Input(shape=input_shape)
 
+    
+
     # Entry block
     x = layers.Rescaling(1.0 / 255)(inputs)
-    x = layers.Conv2D(128, 3, strides=2, padding="same")(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.Activation("relu")(x)
+    x = layers.Conv2D(64, (3, 3), strides=1, activation='relu')(x)
+    x = layers.AveragePooling2D((2, 2))(x)
+    x = layers.Conv2D(128, (3, 3), strides=1, activation='relu')(x)
+    x = layers.AveragePooling2D((2, 2))(x)
+    x = layers.Conv2D(128, (3, 3), strides=1, activation='relu')(x)
 
-    previous_block_activation = x  # Set aside residual
 
-    for size in [256, 512, 728]:
-        x = layers.Activation("relu")(x)
-        x = layers.SeparableConv2D(size, 3, padding="same")(x)
-        x = layers.BatchNormalization()(x)
-        
-        x = layers.Activation("relu")(x)
-        x = layers.SeparableConv2D(size, 3, padding="same")(x)
-        x = layers.BatchNormalization()(x)
-
-        x = layers.MaxPooling2D(3, strides=2, padding="same")(x)
-
-        # Project residual
-        residual = layers.Conv2D(size, 1, strides=2, padding="same")(
-            previous_block_activation
-        )
-        x = layers.add([x, residual])  # Add back residual
-        previous_block_activation = x  # Set aside next residual
-
-    x = layers.SeparableConv2D(1024, 3, padding="same")(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.Activation("relu")(x)
-
-    x = layers.GlobalAveragePooling2D()(x)
     if num_classes == 2:
         units = 1
     else:
         units = num_classes
 
-    x = layers.Dropout(0.25)(x)
+    x = layers.Flatten()(x)
+    #x = layers.Dropout(0.1)(x)
     # We specify activation=None so as to return logits
     outputs = layers.Dense(units, activation=None)(x)
     return keras.Model(inputs, outputs)
 
 print("Building a model.")
-model = make_model(input_shape=image_size+(1,), num_classes=3)
+model = make_model(input_shape=image_size+(3,), num_classes=3)
 
 #dot_img_file = "~/Deep_Learning/HerbDetector/"
 keras.utils.plot_model(model, show_shapes=True)
@@ -250,7 +231,7 @@ print("Saved Model Layout Map.")
 ## Train the model
 """
 print("Training the model.")
-epochs = 3
+epochs = 40
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
@@ -311,7 +292,7 @@ model = keras.saving.load_model("final_model_herb.keras")
 print("Running inference on new data.")
 img = keras.utils.load_img(
 	"herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg",
-	color_mode="grayscale",
+	color_mode="rgb",
 	target_size=image_size,
 )
 
