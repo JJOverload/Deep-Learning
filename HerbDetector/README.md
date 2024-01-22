@@ -39,6 +39,10 @@ According to (https://graphviz.gitlab.io/download/):<br>
 
 -----------------------------------------------
 TODO:
+https://medium.com/@bdhuma/which-pooling-method-is-better-maxpooling-vs-minpooling-vs-average-pooling-95fb03f45a9
+
+average pool yields better results
+
 Was able to plot the accuracy/val acc, as well as the loss/val loss. But discovered that I am overfitting.
 
 
