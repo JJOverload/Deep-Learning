@@ -205,8 +205,8 @@ def make_model(input_shape, num_classes):
     x = layers.Conv2D(64, (3, 3), strides=1, activation='relu')(x)
     x = layers.AveragePooling2D((2, 2))(x)
     x = layers.Conv2D(128, (3, 3), strides=1, activation='relu')(x)
-    x = layers.AveragePooling2D((2, 2))(x)
-    x = layers.Conv2D(128, (3, 3), strides=1, activation='relu')(x)
+    #x = layers.AveragePooling2D((2, 2))(x)
+    #x = layers.Conv2D(128, (3, 3), strides=1, activation='relu')(x)
 
 
     if num_classes == 2:
@@ -215,7 +215,7 @@ def make_model(input_shape, num_classes):
         units = num_classes
 
     x = layers.Flatten()(x)
-    #x = layers.Dropout(0.1)(x)
+    x = layers.Dropout(0.25)(x)
     # We specify activation=None so as to return logits
     outputs = layers.Dense(units, activation=None)(x)
     return keras.Model(inputs, outputs)
@@ -231,7 +231,7 @@ print("Saved Model Layout Map.")
 ## Train the model
 """
 print("Training the model.")
-epochs = 40
+epochs = 25
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
