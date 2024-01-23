@@ -19,7 +19,7 @@ print("Finished importing.")
 print("Filter out corrupted images.")
 
 
-should_rewrite_image = True # set to true if you are getting Corrupt Data error
+should_rewrite_image = False # set to true if you are getting Corrupt Data error
 num_skipped = 0
 for folder_name in ("rosemary-herb", "sage-herb", "thyme-herb"):
     folder_path = os.path.join("herb_images", folder_name)
@@ -63,7 +63,7 @@ batch_size = 128
 
 train_ds, val_ds = keras.utils.image_dataset_from_directory(
     "herb_images",
-    color_mode="grayscale",
+    color_mode="rgb",
     validation_split=0.2,
     subset="both",
     seed=1337,
@@ -215,7 +215,7 @@ def make_model(input_shape, num_classes):
         x = layers.SeparableConv2D(size, 3, padding="same")(x)
         x = layers.BatchNormalization()(x)
 
-        x = layers.MaxPooling2D(3, strides=2, padding="same")(x)
+        x = layers.AveragePooling2D(3, strides=2, padding="same")(x)
 
         # Project residual
         residual = layers.Conv2D(size, 1, strides=2, padding="same")(
@@ -240,7 +240,7 @@ def make_model(input_shape, num_classes):
     return keras.Model(inputs, outputs)
 
 print("Building a model.")
-model = make_model(input_shape=image_size+(1,), num_classes=3)
+model = make_model(input_shape=image_size+(3,), num_classes=3)
 
 #dot_img_file = "~/Deep_Learning/HerbDetector/"
 keras.utils.plot_model(model, show_shapes=True)
@@ -250,7 +250,7 @@ print("Saved Model Layout Map.")
 ## Train the model
 """
 print("Training the model.")
-epochs = 3
+epochs = 20
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
@@ -311,7 +311,7 @@ model = keras.saving.load_model("final_model_herb.keras")
 print("Running inference on new data.")
 img = keras.utils.load_img(
 	"herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg",
-	color_mode="grayscale",
+	color_mode="rgb",
 	target_size=image_size,
 )
 
