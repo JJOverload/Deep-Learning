@@ -3,10 +3,12 @@ import keras
 
 image_size = (180, 180)
 #model_name = "final_model_herb.keras"
-model_name = "save_at_18.keras"
-image_path = "garden-sage.jpg"
-#image_path = "herb_archive/sage-archive/sage-herb_163.jpeg"
-
+model_name = "save_at_15.keras"
+#image_path = "garden-sage.jpg"
+#image_path = "garden-sage2.jpg"
+image_path = "herb_archive/rosemary-archive/rosemary-herb_1a2.jpeg"
+#image_path = "herb_archive/sage-archive/sage-herb_1bf.jpeg"
+#image_path = "herb_archive/thyme-archive/thyme-herb_1fb.jpeg"
 print("Loading model.")
 model = keras.saving.load_model(model_name)
 

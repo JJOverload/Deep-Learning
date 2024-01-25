@@ -59,7 +59,7 @@ print("Deleted %d images" % num_skipped)
 """
 print("Generating a Dataset.")
 image_size = (180, 180)
-batch_size = 32
+batch_size = 64
 
 train_ds, val_ds = keras.utils.image_dataset_from_directory(
     "herb_images",
@@ -203,10 +203,10 @@ def make_model(input_shape, num_classes):
     # Entry block
     x = layers.Rescaling(1.0 / 255)(inputs)
     x = layers.BatchNormalization()(x)
-    x = layers.Conv2D(64, (6, 6), strides=1, activation='relu')(x)
+    x = layers.Conv2D(32, (6, 6), strides=1, activation='relu')(x)
     x = layers.AveragePooling2D((3, 3))(x)
     x = layers.BatchNormalization()(x)
-    x = layers.Conv2D(128, (6, 6), strides=1, activation='relu')(x)
+    x = layers.Conv2D(64, (6, 6), strides=1, activation='relu')(x)
     
     
     
@@ -236,7 +236,7 @@ print("Saved Model Layout Map.")
 ## Train the model
 """
 print("Training the model.")
-epochs = 30
+epochs = 20
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
