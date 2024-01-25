@@ -1,0 +1,122 @@
+Quadruple image set, with proper rotations this time, which will also go through augmentation.
+
+added batch normalization, and then another batch normalization after pooling, which yielded interesting graphs.
+batch_size = 64
+
+
+-----------------------
+
+def make_model(input_shape, num_classes):
+    inputs = keras.Input(shape=input_shape)
+
+    
+
+    # Entry block
+    x = layers.Rescaling(1.0 / 255)(inputs)
+    x = layers.BatchNormalization()(x)
+    x = layers.Conv2D(64, (6, 6), strides=1, activation='relu')(x)
+    x = layers.AveragePooling2D((4, 4))(x)
+    x = layers.BatchNormalization()(x)
+    x = layers.Conv2D(128, (6, 6), strides=1, activation='relu')(x)
+    
+    
+    
+    #x = layers.AveragePooling2D((2, 2))(x)
+    #x = layers.Conv2D(128, (3, 3), strides=1, activation='relu')(x)
+
+
+    if num_classes == 2:
+        units = 1
+    else:
+        units = num_classes
+
+    x = layers.Flatten()(x)
+    x = layers.Dropout(0.25)(x)
+    # We specify activation=None so as to return logits
+    outputs = layers.Dense(units, activation=None)(x)
+    return keras.Model(inputs, outputs)
+
+print("Building a model.")
+model = make_model(input_shape=image_size+(3,), num_classes=3)
+
+--------------------------------------------------------
+
+
+2024-01-24 18:27:45.063447: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-01-24 18:27:45.082902: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Finished importing.
+Filter out corrupted images.
+Deleted 0 images
+Generating a Dataset.
+Found 5090 files belonging to 3 classes.
+Using 4072 files for training.
+Using 1018 files for validation.
+Applying `data_augmentation` to the training images.
+Prefetching samples in GPU memory helps maximize GPU utilization.
+Building a model.
+Saved Model Layout Map.
+Training the model.
+Epoch 1/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 51s 769ms/step - accuracy: 0.5011 - loss: 2.2051 - val_accuracy: 0.4646 - val_loss: 1.0800
+Epoch 2/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 792ms/step - accuracy: 0.6357 - loss: 0.9156 - val_accuracy: 0.4676 - val_loss: 1.1868
+Epoch 3/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 53s 808ms/step - accuracy: 0.6927 - loss: 0.7874 - val_accuracy: 0.5864 - val_loss: 0.9318
+Epoch 4/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 53s 807ms/step - accuracy: 0.7270 - loss: 0.6950 - val_accuracy: 0.6198 - val_loss: 0.8675
+Epoch 5/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 803ms/step - accuracy: 0.7832 - loss: 0.5715 - val_accuracy: 0.6012 - val_loss: 1.3652
+Epoch 6/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 802ms/step - accuracy: 0.7717 - loss: 0.6508 - val_accuracy: 0.6306 - val_loss: 0.9501
+Epoch 7/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 800ms/step - accuracy: 0.8038 - loss: 0.5520 - val_accuracy: 0.8242 - val_loss: 0.4948
+Epoch 8/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 797ms/step - accuracy: 0.7982 - loss: 0.5679 - val_accuracy: 0.6965 - val_loss: 0.8444
+Epoch 9/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 800ms/step - accuracy: 0.8358 - loss: 0.4375 - val_accuracy: 0.8065 - val_loss: 0.4615
+Epoch 10/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 805ms/step - accuracy: 0.8198 - loss: 0.5121 - val_accuracy: 0.7859 - val_loss: 0.6457
+Epoch 11/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 799ms/step - accuracy: 0.8349 - loss: 0.4892 - val_accuracy: 0.7132 - val_loss: 0.9719
+Epoch 12/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 798ms/step - accuracy: 0.8599 - loss: 0.4231 - val_accuracy: 0.7927 - val_loss: 0.6210
+Epoch 13/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 801ms/step - accuracy: 0.9096 - loss: 0.2631 - val_accuracy: 0.8949 - val_loss: 0.2949
+Epoch 14/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 801ms/step - accuracy: 0.8941 - loss: 0.3091 - val_accuracy: 0.8919 - val_loss: 0.3437
+Epoch 15/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 797ms/step - accuracy: 0.8980 - loss: 0.2969 - val_accuracy: 0.8694 - val_loss: 0.3829
+Epoch 16/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 53s 806ms/step - accuracy: 0.9351 - loss: 0.1946 - val_accuracy: 0.8644 - val_loss: 0.3865
+Epoch 17/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 803ms/step - accuracy: 0.9298 - loss: 0.1967 - val_accuracy: 0.9342 - val_loss: 0.2277
+Epoch 18/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 796ms/step - accuracy: 0.9541 - loss: 0.1415 - val_accuracy: 0.9381 - val_loss: 0.2437
+Epoch 19/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 797ms/step - accuracy: 0.9508 - loss: 0.1461 - val_accuracy: 0.9234 - val_loss: 0.2005
+Epoch 20/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 800ms/step - accuracy: 0.9683 - loss: 0.1119 - val_accuracy: 0.9352 - val_loss: 0.1942
+Epoch 21/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 799ms/step - accuracy: 0.9453 - loss: 0.1628 - val_accuracy: 0.9204 - val_loss: 0.2416
+Epoch 22/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 798ms/step - accuracy: 0.9628 - loss: 0.1169 - val_accuracy: 0.9705 - val_loss: 0.1401
+Epoch 23/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 799ms/step - accuracy: 0.9654 - loss: 0.1007 - val_accuracy: 0.9371 - val_loss: 0.1986
+Epoch 24/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 803ms/step - accuracy: 0.9653 - loss: 0.1086 - val_accuracy: 0.9646 - val_loss: 0.1326
+Epoch 25/25
+64/64 ━━━━━━━━━━━━━━━━━━━━ 52s 800ms/step - accuracy: 0.9606 - loss: 0.1188 - val_accuracy: 0.9420 - val_loss: 0.2168
+Saving model.
+Plotting Model Accuracy.
+Saved Graph #1
+Plotting Model Loss
+Saved Graph #2.
+Loading model.
+Running inference on new data.
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 46ms/step
+[[ 5.1977253  -1.8778838   0.68809426]]
+indexOfMax: 0
+Done
+
+
