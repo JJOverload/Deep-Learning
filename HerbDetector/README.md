@@ -24,8 +24,25 @@ Would have to manually take out certain images from the dataset since Google Ima
 
 Resizing will be done through the pipeline, so don't have to worry too much about that (from my experience).
 
-Terminal command for converting png images to jpg:<br>
+Terminal command for converting png images to jpg. (Note: You might be overwriting your data for this.):<br>
 `mogrify -format jpg *.png`
+
+
+-----------------------------------------------
+
+
+**Step 3: Expand Image Set with More Rotations**
+
+Make another copy of the folder(s), and then rotate new images as desired. Repeat copy and rotate steps as desired to expand image set.
+
+Terminal command for rotating images in present working directory (90 degrees counter-clockwise, in this example). (Note: Again, you will overwrite your images in the folder):<br>
+`mogrify -rotate -90 *jpeg`
+
+
+TODO:
+Bash script to help with trimming spaces from directories.
+trimmed_string=$(echo $string | tr -d ' ')
+
 
 
 -----------------------------------------------
