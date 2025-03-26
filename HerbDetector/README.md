@@ -53,4 +53,7 @@ https://stackoverflow.com/questions/66785014/how-to-plot-the-accuracy-and-and-lo
 https://chartio.com/resources/tutorials/how-to-save-a-plot-to-a-file-using-matplotlib/
 
 
+What is the impact of changing image sources on an image recognition?<br>
+https://datascience.stackexchange.com/questions/94926/what-is-the-impact-of-changing-image-sources-on-an-image-recognition
+
 NOTE: DO NOT USE GOOGLE IMAGES FOR COMMERCIAL USE!
